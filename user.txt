@@ -1,0 +1,222 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    a NUMBER := &a;
+    b NUMBER := &b;
+    temp NUMBER;
+BEGIN
+    WHILE b != 0 LOOP
+        temp := b;
+        b := MOD(a, b);
+        a := temp;
+    END LOOP;
+
+    DBMS_OUTPUT.PUT_LINE('GCD = ' || a);
+END;
+/
+
+###prime number
+SET SERVEROUTPUT ON;
+
+DECLARE
+n NUMBER := &n;
+num NUMBER := 2;
+count1 NUMBER := 0;
+i NUMBER;
+flag NUMBER;
+
+BEGIN
+
+WHILE count1 < n LOOP
+
+flag := 1;
+
+FOR i IN 2..num-1 LOOP
+    IF MOD(num,i)=0 THEN
+        flag := 0;
+    END IF;
+END LOOP;
+
+IF flag = 1 THEN
+    DBMS_OUTPUT.PUT_LINE('Prime = ' || num || ' Square Root = ' || SQRT(num));
+    count1 := count1 + 1;
+END IF;
+
+num := num + 1;
+
+END LOOP;
+
+END;
+/
+
+### store into table
+CREATE TABLE prime_table (
+    prime_no NUMBER
+);
+SET SERVEROUTPUT ON;
+
+DECLARE
+n NUMBER := &n;
+num NUMBER := 2;
+count1 NUMBER := 0;
+i NUMBER;
+flag NUMBER;
+
+BEGIN
+
+WHILE count1 < n LOOP
+
+    flag := 1;
+
+    FOR i IN 2..num-1 LOOP
+        IF MOD(num,i)=0 THEN
+            flag := 0;
+        END IF;
+    END LOOP;
+
+    IF flag = 1 THEN
+        INSERT INTO prime_table VALUES(num);
+
+        DBMS_OUTPUT.PUT_LINE('Prime = ' || num ||
+                             ' Square Root = ' || SQRT(num));
+
+        count1 := count1 + 1;
+    END IF;
+
+    num := num + 1;
+
+END LOOP;
+
+COMMIT;
+
+END;
+/
+
+
+### Armstrong 
+SET SERVEROUTPUT ON;
+
+DECLARE
+n NUMBER := &n;
+temp NUMBER;
+rem NUMBER;
+sum1 NUMBER := 0;
+
+BEGIN
+
+temp := n;
+
+WHILE temp > 0 LOOP
+
+    rem := MOD(temp,10);
+    sum1 := sum1 + (rem*rem*rem);
+    temp := TRUNC(temp/10);
+
+END LOOP;
+
+IF sum1 = n THEN
+    DBMS_OUTPUT.PUT_LINE('Armstrong Number');
+ELSE
+    DBMS_OUTPUT.PUT_LINE('Not Armstrong Number');
+END IF;
+
+END;
+/
+
+
+### fibonaci
+CREATE TABLE fibo_table (
+    fibo_no NUMBER
+);
+SET SERVEROUTPUT ON;
+
+DECLARE
+n NUMBER := &n;
+a NUMBER := 0;
+b NUMBER := 1;
+c NUMBER;
+i NUMBER;
+j NUMBER;
+fact NUMBER;
+
+BEGIN
+
+FOR i IN 1..n LOOP
+
+    IF i = 1 THEN
+        c := a;
+    ELSIF i = 2 THEN
+        c := b;
+    ELSE
+        c := a + b;
+        a := b;
+        b := c;
+    END IF;
+
+    INSERT INTO fibo_table VALUES(c);
+
+    fact := 1;
+
+    IF c = 0 THEN
+        fact := 1;
+    ELSE
+        FOR j IN 1..c LOOP
+            fact := fact * j;
+        END LOOP;
+    END IF;
+
+    DBMS_OUTPUT.PUT_LINE('Fibonacci = ' || c ||
+                         ' Factorial = ' || fact);
+
+END LOOP;
+
+COMMIT;
+
+END;
+/
+
+SELECT * FROM fibo_table;
+
+
+SET SERVEROUTPUT ON;
+
+DECLARE
+n NUMBER := &n;
+a NUMBER := 0;
+b NUMBER := 1;
+c NUMBER;
+i NUMBER;
+j NUMBER;
+fact NUMBER;
+
+BEGIN
+
+FOR i IN 1..n LOOP
+
+    IF i = 1 THEN
+        c := a;
+    ELSIF i = 2 THEN
+        c := b;
+    ELSE
+        c := a + b;
+        a := b;
+        b := c;
+    END IF;
+
+    fact := 1;
+
+    IF c = 0 THEN
+        fact := 1;
+    ELSE
+        FOR j IN 1..c LOOP
+            fact := fact * j;
+        END LOOP;
+    END IF;
+
+    DBMS_OUTPUT.PUT_LINE('Fibonacci = ' || c ||
+                         ' Factorial = ' || fact);
+
+END LOOP;
+
+END;
+/
